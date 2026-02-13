@@ -1,0 +1,349 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   MISSION CONTROL BRUTALISM - Global Styles
+   ============================================ */
+
+/* Base dark theme */
+body {
+  @apply bg-darkest text-text-primary font-body;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.02) 3px,
+    rgba(255, 255, 255, 0.02) 4px
+  );
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   Card Styles
+   ============================================ */
+.card {
+  @apply bg-dark border border-light p-6;
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
+}
+
+.card-elevated {
+  @apply bg-medium border border-light p-6;
+}
+
+/* ============================================
+   Button Styles (Square, Hard Edges)
+   ============================================ */
+.btn {
+  @apply px-4 py-2 font-mono font-bold uppercase text-sm tracking-wider transition-all duration-150;
+  @apply border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-darkest;
+}
+
+.btn-primary {
+  @apply bg-radar-500 text-darkest border-radar-500;
+  @apply hover:bg-radar-400 hover:border-radar-400;
+  @apply focus:ring-radar-500;
+}
+
+.btn-secondary {
+  @apply bg-transparent text-text-primary border-light;
+  @apply hover:bg-light hover:border-text-secondary;
+  @apply focus:ring-light;
+}
+
+.btn-danger {
+  @apply bg-signal-critical text-white border-signal-critical;
+  @apply hover:bg-red-700 hover:border-red-700;
+  @apply focus:ring-signal-critical;
+}
+
+.btn-ghost {
+  @apply bg-transparent text-text-secondary border-transparent;
+  @apply hover:text-text-primary hover:bg-light;
+  @apply focus:ring-light;
+}
+
+/* ============================================
+   Badge Styles (Square Chips)
+   ============================================ */
+.badge {
+  @apply inline-flex items-center px-2 py-1 text-xs font-mono font-bold uppercase tracking-wider;
+}
+
+.badge-new {
+  @apply bg-signal-info/20 text-signal-info border border-signal-info/50;
+}
+
+.badge-saved {
+  @apply bg-signal-success/20 text-signal-success border border-signal-success/50;
+}
+
+.badge-rejected {
+  @apply bg-signal-critical/20 text-signal-critical border border-signal-critical/50;
+}
+
+.badge-in_progress {
+  @apply bg-signal-warning/20 text-signal-warning border border-signal-warning/50;
+}
+
+.badge-niche {
+  @apply bg-signal-violet/20 text-signal-violet border border-signal-violet/50;
+}
+
+.badge-sector {
+  @apply bg-medium text-text-secondary border border-light;
+}
+
+/* ============================================
+   Score Colors
+   ============================================ */
+.score-high {
+  @apply text-signal-success;
+}
+
+.score-medium {
+  @apply text-signal-warning;
+}
+
+.score-low {
+  @apply text-signal-critical;
+}
+
+/* Score bar segments */
+.score-bar-segment {
+  @apply h-2 w-2 transition-colors duration-150;
+}
+
+.score-bar-segment-filled-high {
+  @apply bg-signal-success;
+}
+
+.score-bar-segment-filled-medium {
+  @apply bg-signal-warning;
+}
+
+.score-bar-segment-filled-low {
+  @apply bg-signal-critical;
+}
+
+.score-bar-segment-empty {
+  @apply bg-light;
+}
+
+/* ============================================
+   Status Border Colors (4px left border)
+   ============================================ */
+.status-border-new {
+  @apply border-l-4 border-l-signal-info;
+}
+
+.status-border-saved {
+  @apply border-l-4 border-l-signal-success;
+}
+
+.status-border-rejected {
+  @apply border-l-4 border-l-signal-critical;
+}
+
+.status-border-in_progress {
+  @apply border-l-4 border-l-signal-warning;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+.font-display-number {
+  @apply font-display font-bold tracking-tight;
+}
+
+.label-mono {
+  @apply font-mono text-xs uppercase tracking-wider text-text-secondary;
+}
+
+/* ============================================
+   Radar Animation
+   ============================================ */
+.radar-container {
+  @apply relative;
+}
+
+.radar-pulse-ring {
+  @apply absolute inset-0 rounded-full border-2 border-radar-500 opacity-0;
+  animation: radar-expand 2s ease-out infinite;
+}
+
+.radar-pulse-ring:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.radar-pulse-ring:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes radar-expand {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   Card Scan-In Animation
+   ============================================ */
+.card-scan-in {
+  opacity: 0;
+  animation: scan-in 0.3s ease-out forwards;
+}
+
+/* Stagger delays for list items */
+.card-scan-in:nth-child(1) {
+  animation-delay: 0ms;
+}
+.card-scan-in:nth-child(2) {
+  animation-delay: 50ms;
+}
+.card-scan-in:nth-child(3) {
+  animation-delay: 100ms;
+}
+.card-scan-in:nth-child(4) {
+  animation-delay: 150ms;
+}
+.card-scan-in:nth-child(5) {
+  animation-delay: 200ms;
+}
+.card-scan-in:nth-child(6) {
+  animation-delay: 250ms;
+}
+.card-scan-in:nth-child(7) {
+  animation-delay: 300ms;
+}
+.card-scan-in:nth-child(8) {
+  animation-delay: 350ms;
+}
+.card-scan-in:nth-child(9) {
+  animation-delay: 400ms;
+}
+.card-scan-in:nth-child(10) {
+  animation-delay: 450ms;
+}
+
+@keyframes scan-in {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Count-Up Animation Helper
+   ============================================ */
+.count-up {
+  animation: count-flash 0.8s ease-out;
+}
+
+@keyframes count-flash {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   Input Styles
+   ============================================ */
+input,
+select,
+textarea {
+  @apply bg-dark border border-light text-text-primary font-mono;
+  @apply focus:border-radar-500 focus:ring-1 focus:ring-radar-500 focus:outline-none;
+  @apply placeholder:text-text-tertiary;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="search"],
+select,
+textarea {
+  @apply px-3 py-2;
+}
+
+/* ============================================
+   Scrollbar Styles
+   ============================================ */
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-darkest;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-light hover:bg-text-tertiary;
+}
+
+/* ============================================
+   Table Styles
+   ============================================ */
+table {
+  @apply w-full border-collapse;
+}
+
+th {
+  @apply text-left font-mono text-xs uppercase tracking-wider text-text-secondary;
+  @apply px-4 py-3 border-b border-light bg-dark;
+}
+
+td {
+  @apply px-4 py-3 border-b border-light/50;
+}
+
+tr:hover td {
+  @apply bg-medium/50;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.border-accent {
+  @apply border-2 border-radar-500;
+}
+
+.glow-radar {
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.text-gradient-radar {
+  @apply bg-gradient-to-r from-radar-500 to-signal-info bg-clip-text text-transparent;
+}
