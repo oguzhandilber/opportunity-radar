@@ -70,6 +70,7 @@ from app.api import (
     saved_searches,
     app_store,
     app_store_saved_searches,
+    demand_check,
 )
 from app.websockets import endpoints as websocket_router
 
@@ -143,6 +144,11 @@ app.include_router(
     prefix=f"{settings.api_prefix}",
     tags=["App Store Saved Searches"],
     dependencies=auth_dependency,
+)
+app.include_router(
+    demand_check.router,
+    prefix=f"{settings.api_prefix}/demand-check",
+    tags=["Demand Check"],
 )
 
 app.include_router(websocket_router.websocket_router)
