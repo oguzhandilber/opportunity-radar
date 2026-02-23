@@ -468,3 +468,20 @@ class AppStoreSavedSearch(Base):
         Index("ix_app_store_saved_searches_notify", "notify_on_match"),
         Index("ix_app_store_saved_searches_created_at", "created_at"),
     )
+
+
+class UserProfile(Base):
+    """User profile for storing user information including phone number for ElevenLabs calls."""
+
+    __tablename__ = "user_profiles"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    phone_number = Column(String(20), nullable=True, index=True)  # E.164 format for ElevenLabs
+
+    created_at = Column(DateTime, default=utc_now)
+    updated_at = Column(DateTime, default=utc_now, onupdate=utc_now)
+
+    __table_args__ = (
+        Index("ix_user_profiles_phone", "phone_number"),
+    )
