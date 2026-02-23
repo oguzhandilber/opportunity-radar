@@ -33,10 +33,10 @@ class ViralDetectionService:
         - Shareability score (15%)
         - Timing/seasonality (10%)
         """
-        velocity_score = self._calculate_velocity_score(app_id)
-        engagement_score = self._calculate_engagement_score(app_id)
-        shareability_score = self._calculate_shareability_score(app_id)
-        timing_score = self._calculate_timing_score(app_id)
+        velocity_score = await self._calculate_velocity_score(app_id)
+        engagement_score = await self._calculate_engagement_score(app_id)
+        shareability_score = await self._calculate_shareability_score(app_id)
+        timing_score = await self._calculate_timing_score(app_id)
         k_factor = await self.calculate_k_factor(app_id)
 
         viral_score = (
@@ -233,7 +233,7 @@ class ViralDetectionService:
 
         return viral_apps[:10]  # Return top 10 most viral apps
 
-    def _calculate_velocity_score(self, app_id: int) -> float:
+    async def _calculate_velocity_score(self, app_id: int) -> float:
         """Calculate velocity score based on rating and download velocity."""
         async with get_db_context() as session:
             app = await self._get_app(session, app_id)
@@ -248,7 +248,7 @@ class ViralDetectionService:
 
             return min(100.0, max(0.0, velocity_score))
 
-    def _calculate_engagement_score(self, app_id: int) -> float:
+    async def _calculate_engagement_score(self, app_id: int) -> float:
         """Calculate engagement score based on user activity."""
         async with get_db_context() as session:
             app = await self._get_app(session, app_id)
@@ -278,7 +278,7 @@ class ViralDetectionService:
 
             return min(100.0, max(0.0, engagement_score))
 
-    def _calculate_shareability_score(self, app_id: int) -> float:
+    async def _calculate_shareability_score(self, app_id: int) -> float:
         """Calculate shareability score based on app characteristics."""
         async with get_db_context() as session:
             app = await self._get_app(session, app_id)
@@ -341,7 +341,7 @@ class ViralDetectionService:
 
             return min(100.0, max(0.0, shareability_score))
 
-    def _calculate_timing_score(self, app_id: int) -> float:
+    async def _calculate_timing_score(self, app_id: int) -> float:
         """Calculate timing score based on seasonality and trends."""
         async with get_db_context() as session:
             app = await self._get_app(session, app_id)
