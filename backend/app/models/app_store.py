@@ -513,3 +513,29 @@ class DemandCheckRequest(Base):
     __table_args__ = (
         Index("ix_demand_check_requests_created_at", "created_at"),
     )
+
+
+class CallHistory(Base):
+    """Stores ElevenLabs call history for demand check notifications."""
+
+    __tablename__ = "call_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    demand_check_id = Column(Integer, ForeignKey("demand_check_requests.id"), nullable=True, index=True)
+    
+    # Call details
+    elevenlabs_call_id = Column(String(100), nullable=True, index=True)
+    status = Column(String(20), default="initiated")  # initiated, completed, failed
+    duration_seconds = Column(Integer, nullable=True)
+    
+    # Timestamps
+    created_at = Column(DateTime, default=utc_now)
+
+    # Relationships
+    user = relationship("User", lazy="select")
+    demand_check = relationship("DemandCheckRequest", lazy="select")
+
+    __table_args__ = (
+        Index("ix_call_history_created_at", "created_at"),
+    )
