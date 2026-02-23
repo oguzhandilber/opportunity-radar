@@ -468,3 +468,74 @@ class AppStoreSavedSearch(Base):
         Index("ix_app_store_saved_searches_notify", "notify_on_match"),
         Index("ix_app_store_saved_searches_created_at", "created_at"),
     )
+
+
+class UserProfile(Base):
+    """User profile for storing user information including phone number for ElevenLabs calls."""
+
+    __tablename__ = "user_profiles"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    phone_number = Column(String(20), nullable=True, index=True)  # E.164 format for ElevenLabs
+
+    created_at = Column(DateTime, default=utc_now)
+    updated_at = Column(DateTime, default=utc_now, onupdate=utc_now)
+
+    __table_args__ = (
+        Index("ix_user_profiles_phone", "phone_number"),
+    )
+
+
+class DemandCheckRequest(Base):
+    """Stores demand check requests from users."""
+
+    __tablename__ = "demand_check_requests"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    business_idea = Column(Text, nullable=False)
+
+    # Status tracking
+    status = Column(String(20), default="pending")  # pending, completed, failed
+
+    # Results
+    demand_score = Column(Float, nullable=True)
+    analysis_text = Column(Text, nullable=True)
+
+    # Timestamps
+    created_at = Column(DateTime, default=utc_now)
+    completed_at = Column(DateTime, nullable=True)
+
+    # Relationships
+    user = relationship("User", lazy="select")
+
+    __table_args__ = (
+        Index("ix_demand_check_requests_created_at", "created_at"),
+    )
+
+
+class CallHistory(Base):
+    """Stores ElevenLabs call history for demand check notifications."""
+
+    __tablename__ = "call_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    demand_check_id = Column(Integer, ForeignKey("demand_check_requests.id"), nullable=True, index=True)
+    
+    # Call details
+    elevenlabs_call_id = Column(String(100), nullable=True, index=True)
+    status = Column(String(20), default="initiated")  # initiated, completed, failed
+    duration_seconds = Column(Integer, nullable=True)
+    
+    # Timestamps
+    created_at = Column(DateTime, default=utc_now)
+
+    # Relationships
+    user = relationship("User", lazy="select")
+    demand_check = relationship("DemandCheckRequest", lazy="select")
+
+    __table_args__ = (
+        Index("ix_call_history_created_at", "created_at"),
+    )
