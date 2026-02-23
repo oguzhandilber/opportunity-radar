@@ -485,3 +485,31 @@ class UserProfile(Base):
     __table_args__ = (
         Index("ix_user_profiles_phone", "phone_number"),
     )
+
+
+class DemandCheckRequest(Base):
+    """Stores demand check requests from users."""
+
+    __tablename__ = "demand_check_requests"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    business_idea = Column(Text, nullable=False)
+
+    # Status tracking
+    status = Column(String(20), default="pending")  # pending, completed, failed
+
+    # Results
+    demand_score = Column(Float, nullable=True)
+    analysis_text = Column(Text, nullable=True)
+
+    # Timestamps
+    created_at = Column(DateTime, default=utc_now)
+    completed_at = Column(DateTime, nullable=True)
+
+    # Relationships
+    user = relationship("User", lazy="select")
+
+    __table_args__ = (
+        Index("ix_demand_check_requests_created_at", "created_at"),
+    )
