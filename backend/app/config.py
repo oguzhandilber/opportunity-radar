@@ -94,6 +94,10 @@ class Settings(BaseSettings):
     ollama_model: str = "deepseek-r1:14b"
     ollama_base_url: str = "http://localhost:11434"
 
+    # ElevenLabs (for phone calls)
+    elevenlabs_api_key: str = ""
+    elevenlabs_voice_id: str = "21m00tcm4elvl8d8201q"  # Default voice
+
     # Reddit (PRAW)
     reddit_client_id: str = ""
     reddit_client_secret: str = ""
